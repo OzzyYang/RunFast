@@ -173,7 +173,6 @@ public class Game {
     }
 
 
-
     /**
      * 发牌
      */
@@ -193,7 +192,7 @@ public class Game {
     /**
      * 洗牌
      *
-     * @param poker
+     * @param poker 需要洗的牌组
      */
     private static void shuffleCards(Poker[] poker) {
         int shuffleTimes = 500;//打乱次数

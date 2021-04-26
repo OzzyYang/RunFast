@@ -11,7 +11,6 @@ public enum CardType {
     private CardType(int typeSize, int compNum) {
         this.typeSize = typeSize;
         this.compNum = compNum;
-
     }
 
     public int getTypeSize() {

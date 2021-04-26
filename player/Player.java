@@ -15,38 +15,36 @@ public class Player {
 
     public void takeHandCards(Poker[] cards) {
         this.handCards = cards;
-        this.sortCard(cards, "ASC");
+        sortCard(cards, "ASC");
     }
 
     public Poker[] getHandCards() {
         return handCards.clone();
     }
 
-    public void sortCard(Poker[] cards, String sortOrder) {
-        Poker canum = null;// 交换数值时的缓存变量
-        // 冒泡排序
-        if (sortOrder == "ASC") {
-            for (int i = 0; i < cards.length - 1; i++) {
-                for (int j = 0; j < cards.length - 1; j++) {
-                    if (cards[j].getCardSize() > cards[j + 1].getCardSize()) {
-                        canum = cards[j];
-                        cards[j] = cards[j + 1];
-                        cards[j + 1] = canum;
-                    }
-                }
-            }
-        } else if (sortOrder == "DES") {
-            for (int i = 0; i < cards.length - 1; i++) {
-                for (int j = 0; j < cards.length - 1; j++) {
-                    if (cards[j].getCardSize() < cards[j + 1].getCardSize()) {
-                        canum = cards[j];
-                        cards[j] = cards[j + 1];
-                        cards[j + 1] = canum;
-                    }
+    /**
+     * 对牌组进行冒泡排序
+     *
+     * @param cards     需要排序的牌组
+     * @param sortOrder ASC表示升序 DES表示降序
+     */
+    public static void sortCard(Poker[] cards, String sortOrder) {
+        if (cards == null) return;
+        if (!(sortOrder.equals("ASC") || sortOrder.equals("DES"))) {
+            System.out.println("SortOrder ERROR!");
+        }
+        for (int i = 0; i < cards.length - 1; i++) {
+            for (int j = 0; j < cards.length - 1; j++) {
+                if ((sortOrder.equals("ASC") && cards[j].getCardSize() > cards[j + 1].getCardSize())
+                        || (sortOrder.equals("DES") && cards[j].getCardSize() < cards[j + 1].getCardSize())) {
+                    Poker cache = cards[j];// 交换数值时的缓存变量
+                    cards[j] = cards[j + 1];
+                    cards[j + 1] = cache;
                 }
             }
         }
     }
+
 
     /**
      * 输出玩家的手牌
