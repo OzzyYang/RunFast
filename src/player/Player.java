@@ -1,6 +1,6 @@
-package player;
+package src.player;
 
-import game.*;
+import src.cards.Poker;
 
 public class Player {
     protected Poker[] handCards;

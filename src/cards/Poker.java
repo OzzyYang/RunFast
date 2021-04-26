@@ -1,4 +1,4 @@
-package game;
+package src.cards;
 
 public enum Poker {
     黑桃A("黑桃A", "Spade", 14), 红心A("红心A", "Heart", 14), 梅花A("梅花A", "Club", 14), 红心2("红心2", "Heart", 15),

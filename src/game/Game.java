@@ -1,9 +1,10 @@
-package game;
+package src.game;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
-import player.*;
+import src.cards.*;
+import src.player.*;
 
 /**
  * 跑得快游戏主体，单例类
@@ -159,6 +160,7 @@ public class Game {
 
     /**
      * 判断游戏是否结束
+     *
      * @param player 当前出牌的玩家
      * @return
      */
