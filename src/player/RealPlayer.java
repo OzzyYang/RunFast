@@ -2,14 +2,14 @@ package src.player;
 
 import src.cards.Poker;
 
-public class Player {
+public class RealPlayer {
     protected Poker[] handCards;
 
-    public Player() {
+    public RealPlayer() {
 
     }
 
-    public Player(Poker[] handCards) {
+    public RealPlayer(Poker[] handCards) {
         this.handCards = handCards;
     }
 

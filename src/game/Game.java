@@ -10,7 +10,7 @@ import src.player.*;
  * 跑得快游戏主体，单例类
  */
 public class Game {
-    private Player[] players = new Player[3];
+    private RealPlayer[] realPlayers = new RealPlayer[3];
     Poker[] poker = Poker.values();
     private static Game game = new Game();
     private ArrayList<Poker[]> playedCardsList = new ArrayList<>();
@@ -20,9 +20,9 @@ public class Game {
     // private int playerFisrtTag = 1;
 
     private Game() {
-        players[0] = new Player();
-        players[1] = new Player();
-        players[2] = new Player();
+        realPlayers[0] = new RealPlayer();
+        realPlayers[1] = new RealPlayer();
+        realPlayers[2] = new RealPlayer();
     }
 
     public static Game getGame() {
@@ -40,14 +40,14 @@ public class Game {
         Round:
         do {
             System.out.println("\n------------------玩家" + roundTag + "的牌为-------------------");
-            players[roundTag - 1].readCard(true);
+            realPlayers[roundTag - 1].readCard(true);
             switch (roundCount) {
                 case 1: {
                     System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 2.出牌):");
                     break;
                 }
                 case 2: {
-                    if (CardType.canCardPlay(playedCardsList.get(0), players[roundTag - 1].getHandCards())) {
+                    if (CardType.canCardPlay(playedCardsList.get(0), realPlayers[roundTag - 1].getHandCards())) {
                         System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 2.出牌):");
                     } else {
                         System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 3.要不起):");
@@ -59,7 +59,7 @@ public class Game {
                     if (playedCardsList.get(i) == null) {
                         i = 0;
                     }
-                    if (CardType.canCardPlay(playedCardsList.get(i), players[roundTag - 1].getHandCards())) {
+                    if (CardType.canCardPlay(playedCardsList.get(i), realPlayers[roundTag - 1].getHandCards())) {
                         System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 2.出牌):");
                     } else {
                         System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 3.要不起):");
@@ -78,7 +78,7 @@ public class Game {
                     } while (i > playedCardsList.size() - 3);
 
                     if (i == (playedCardsList.size() - 3)
-                            || CardType.canCardPlay(playedCardsList.get(i), players[roundTag - 1].getHandCards())) {
+                            || CardType.canCardPlay(playedCardsList.get(i), realPlayers[roundTag - 1].getHandCards())) {
                         System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 2.出牌):");
                     } else {
                         System.out.print("请玩家" + roundTag + "输入指令执行操作(1.看牌 3.要不起):");
@@ -100,9 +100,9 @@ public class Game {
                                 String[] playCardsStr = inputStr.split(",");
                                 Poker[] playedCards = new Poker[playCardsStr.length];
                                 String playInfo = new String();
-                                if (players[roundTag - 1].haveCards(playCardsStr, playedCards)) {
+                                if (realPlayers[roundTag - 1].haveCards(playCardsStr, playedCards)) {
                                     if (playedCardsSuccess(playedCards.clone(), playInfo)) {
-                                        players[roundTag - 1].playCards(playedCards);
+                                        realPlayers[roundTag - 1].playCards(playedCards);
                                         System.out
                                                 .println("-----------------玩家" + roundTag + "所出的牌为-----------------\n");
                                         System.out.print(CardType.judgeCardType(playedCards) + "：");
@@ -112,7 +112,7 @@ public class Game {
                                         System.out.println("\n\n-------------------------------------------------");
 
                                         //System.out.print(playInfo);
-                                        if (this.isGameEnd(players[roundTag - 1])) {
+                                        if (this.isGameEnd(realPlayers[roundTag - 1])) {
                                             this.endGame();
                                         }
                                     } else {
@@ -161,11 +161,11 @@ public class Game {
     /**
      * 判断游戏是否结束
      *
-     * @param player 当前出牌的玩家
+     * @param realPlayer 当前出牌的玩家
      * @return
      */
-    private boolean isGameEnd(Player player) {
-        Poker[] playerCards = player.getHandCards();
+    private boolean isGameEnd(RealPlayer realPlayer) {
+        Poker[] playerCards = realPlayer.getHandCards();
         for (Poker poker : playerCards) {
             if (poker != null) {
                 return false;
@@ -186,9 +186,9 @@ public class Game {
             playerCards[1][j] = poker[i + 1];
             playerCards[2][j] = poker[i + 2];
         }
-        players[0].takeHandCards(playerCards[0]);
-        players[1].takeHandCards(playerCards[1]);
-        players[2].takeHandCards(playerCards[2]);
+        realPlayers[0].takeHandCards(playerCards[0]);
+        realPlayers[1].takeHandCards(playerCards[1]);
+        realPlayers[2].takeHandCards(playerCards[2]);
     }
 
     /**
@@ -239,7 +239,7 @@ public class Game {
                 // 三张且手牌只剩三张牌时
                 if ((cardType = CardType.judgeCardType(playedCards)) != null) {
                     // System.out.println(cardType);
-                    if (players[roundTag - 1].getHandCardsNum() == 3) {
+                    if (realPlayers[roundTag - 1].getHandCardsNum() == 3) {
                         result = true;
                     }
                 }
@@ -250,7 +250,7 @@ public class Game {
                     // System.out.println(cardType);
                     result = true;
                     // 排除掉三张且手牌不只剩四张牌的情况
-                    if (cardType == CardType.三带二 && players[roundTag - 1].getHandCardsNum() != 4) {
+                    if (cardType == CardType.三带二 && realPlayers[roundTag - 1].getHandCardsNum() != 4) {
                         result = false;
                     }
                 }
@@ -341,19 +341,19 @@ public class Game {
      *
      * @deprecated 测试方法
      */
-    private void goThroughPlayerCards(Player player) {
+    private void goThroughPlayerCards(RealPlayer realPlayer) {
         double fourTag = 0.0;
         double dealCount = 0.0;
         int fourCount = 0;
         do {
             this.deal();
-            int poker = (player.getHandCards())[0].getCardSize();
-            for (int i = 1; i < (player.getHandCards()).length; i++) {
-                if ((player.getHandCards())[i].getCardSize() == poker) {
+            int poker = (realPlayer.getHandCards())[0].getCardSize();
+            for (int i = 1; i < (realPlayer.getHandCards()).length; i++) {
+                if ((realPlayer.getHandCards())[i].getCardSize() == poker) {
                     fourCount++;
                 } else {
                     fourCount = 1;
-                    poker = (player.getHandCards())[i].getCardSize();
+                    poker = (realPlayer.getHandCards())[i].getCardSize();
                 }
                 if (fourCount == 4) {
                     fourTag++;
